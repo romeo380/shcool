@@ -1,0 +1,36 @@
+{
+  "name": "school-election-desktop",
+  "version": "1.0.0",
+  "description": "A secure and modern voting system for school elections, packaged for desktop.",
+  "main": "electron/main.js",
+  "author": "AI Assistant",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win"
+  },
+  "devDependencies": {
+    "electron": "^28.2.3",
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "appId": "com.schoolelection.desktop",
+    "productName": "School Election System",
+    "files": [
+      "**/*",
+      "!dist/",
+      "!node_modules/"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}

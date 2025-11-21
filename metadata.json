@@ -1,0 +1,5 @@
+{
+  "name": "School Election Voting System",
+  "description": "A secure and modern voting system for school elections. Features separate panels for administrators and voters, real-time result tracking, and a user-friendly voting interface, mimicking a real-world election process.",
+  "requestFramePermissions": []
+}
