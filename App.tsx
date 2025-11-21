@@ -3,8 +3,7 @@ import { Position, Candidate, Voter, Vote, ElectionStatus, Workspace, DEFAULT_US
 import { cloudService } from './services/cloudService';
 import AdminPanel from './components/AdminPanel';
 import VotingBooth from './components/VotingBooth';
-import ResultsChart from './components/ResultsChart';
-import { UserIcon, LockIcon, IdentificationIcon, SunIcon, MoonIcon, ChartBarIcon, ShieldCheckIcon, TrophyIcon, CloudIcon, CloudUploadIcon, CloudCheckIcon } from './components/icons';
+import { UserIcon, LockIcon, SunIcon, MoonIcon, ChartBarIcon, TrophyIcon, CloudIcon, CloudUploadIcon, CloudCheckIcon } from './components/icons';
 import WorkspaceManager from './components/WorkspaceManager';
 import SuperAdminPanel from './components/SuperAdminPanel';
 import VoterVerificationModal from './components/VoterVerificationModal';
@@ -49,7 +48,6 @@ const getDefaultState = (): FullAppState => ({
     lastBackupTimestamp: null,
 });
 
-
 // --- Reusable Theme Toggle Button ---
 const ThemeToggleButton: React.FC<{ theme: Theme, toggleTheme: () => void }> = ({ theme, toggleTheme }) => (
     <button
@@ -86,7 +84,7 @@ const UnifiedLoginScreen: React.FC<{
         if (electionStatus === 'ENDED' && resultsPublished) {
             return { disabled: false, text: "View Final Results" };
         }
-        return null; // Don't show the button otherwise
+        return null;
     }, [electionStatus, resultsPublished]);
 
     return (
@@ -95,7 +93,7 @@ const UnifiedLoginScreen: React.FC<{
                 <ThemeToggleButton theme={theme} toggleTheme={toggleTheme} />
             </div>
             <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 space-y-6">
-                 <div>
+                <div>
                     <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-200">
                         {workspace ? workspace.name : "Election System Login"}
                     </h2>
@@ -107,7 +105,7 @@ const UnifiedLoginScreen: React.FC<{
                     <div>
                         <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Login ID</label>
                         <div className="mt-1 relative">
-                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><UserIcon className="h-5 w-5 text-gray-400" /></div>
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><UserIcon className="h-5 w-5 text-gray-400" /></div>
                             <input
                                 type="text"
                                 value={loginId}
@@ -131,7 +129,7 @@ const UnifiedLoginScreen: React.FC<{
                                 required
                             />
                         </div>
-                         <div className="text-right mt-2">
+                        <div className="text-right mt-2">
                             <button type="button" onClick={() => setShowVoterVerification(true)} className="text-xs font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
                                 Find My Voter ID?
                             </button>
@@ -143,7 +141,7 @@ const UnifiedLoginScreen: React.FC<{
                 </form>
                 {loginError && <p className="text-center text-sm text-red-600">{loginError}</p>}
                 <div className="text-center border-t dark:border-gray-700 pt-6 space-y-4">
-                     <button onClick={onSwitchWorkspace} className="w-full text-sm font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
+                    <button onClick={onSwitchWorkspace} className="w-full text-sm font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
                         {workspace ? `Not ${workspace.name}? Switch Workspace` : 'Select Workspace to vote'}
                     </button>
                     {resultsButtonState && (
@@ -152,7 +150,7 @@ const UnifiedLoginScreen: React.FC<{
                             disabled={resultsButtonState.disabled}
                             className="inline-flex items-center gap-2 w-full justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:bg-gray-400 disabled:cursor-not-allowed"
                         >
-                           <ChartBarIcon className="w-5 h-5"/> {resultsButtonState.text}
+                            <ChartBarIcon className="w-5 h-5"/> {resultsButtonState.text}
                         </button>
                     )}
                 </div>
@@ -204,7 +202,7 @@ const PublicResults: React.FC<PublicResultsProps> = ({ positions, candidates, vo
         return (
             <div className="min-h-screen bg-slate-900 text-white p-4 md:p-8 diwali-theme overflow-hidden">
                 <ReactConfetti recycle={false} numberOfPieces={400} />
-                 <header className="flex justify-between items-center mb-12">
+                <header className="flex justify-between items-center mb-12">
                     <div>
                         <h1 className="text-4xl font-bold text-yellow-300">{electionName}</h1>
                         <h2 className="text-2xl font-semibold text-yellow-200">{workspaceName} - Final Results</h2>
@@ -218,9 +216,9 @@ const PublicResults: React.FC<PublicResultsProps> = ({ positions, candidates, vo
                 </header>
                 <div className="space-y-12">
                     {resultsData.map(data => (
-                         <div key={data.positionName} className="text-center">
+                        <div key={data.positionName} className="text-center">
                             <h3 className="text-2xl font-semibold text-yellow-200 mb-2">The new <span className="font-bold text-yellow-100">{data.positionName}</span> is</h3>
-                             {data.winner ? (
+                            {data.winner ? (
                                 <div className="max-w-md mx-auto bg-slate-800/50 border-2 border-yellow-500 rounded-xl p-8 shadow-lg shadow-yellow-500/10">
                                     <img src={data.winner.imageUrl} alt={data.winner.name} className="w-32 h-32 rounded-full mx-auto mb-4 ring-4 ring-yellow-400 object-cover" />
                                     <p className="text-4xl font-bold text-yellow-300">{data.winner.name}</p>
@@ -228,13 +226,13 @@ const PublicResults: React.FC<PublicResultsProps> = ({ positions, candidates, vo
                                         <TrophyIcon className="w-6 h-6"/> With {data.winner.votes} Votes
                                     </p>
                                 </div>
-                             ) : (
+                            ) : (
                                 <p className="text-xl text-yellow-300">No winner declared.</p>
-                             )}
-                         </div>
+                            )}
+                        </div>
                     ))}
                 </div>
-                 <footer className="text-center mt-16">
+                <footer className="text-center mt-16">
                     <p className="text-yellow-200 font-bold text-2xl">Congratulations to all the winners!</p>
                 </footer>
             </div>
@@ -243,7 +241,7 @@ const PublicResults: React.FC<PublicResultsProps> = ({ positions, candidates, vo
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 p-4">
-             <div className="absolute top-4 right-4">
+            <div className="absolute top-4 right-4">
                 <ThemeToggleButton theme={theme} toggleTheme={toggleTheme} />
             </div>
             <div className="text-center bg-white dark:bg-gray-800 p-12 rounded-lg shadow-lg">
@@ -259,7 +257,6 @@ const PublicResults: React.FC<PublicResultsProps> = ({ positions, candidates, vo
     );
 };
 
-
 const App: React.FC = () => {
     // --- STATE MANAGEMENT ---
     const [isInitialLoad, setIsInitialLoad] = useState(true);
@@ -268,7 +265,7 @@ const App: React.FC = () => {
     const [syncStatus, setSyncStatus] = useState<SyncStatus>('idle');
     const syncStatusTimer = useRef<number | null>(null);
     
-    // --- Top-level states, loaded once ---
+    // --- Top-level states ---
     const [theme, setTheme] = useState<Theme>('light');
     const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
     const [superAdminProfile, setSuperAdminProfile] = useState<AdminProfile>({} as AdminProfile);
@@ -276,7 +273,7 @@ const App: React.FC = () => {
     const [activeWorkspace, setActiveWorkspace] = useState<Workspace | null>(null);
     const [lastBackupTimestamp, setLastBackupTimestamp] = useState<number | null>(null);
 
-    // --- Derived states for active workspace ---
+    // --- Derived states ---
     const [positions, setPositions] = useState<Position[]>([]);
     const [candidates, setCandidates] = useState<Candidate[]>([]);
     const [voters, setVoters] = useState<Voter[]>([]);
@@ -296,8 +293,6 @@ const App: React.FC = () => {
     const [showVoterVerification, setShowVoterVerification] = useState(false);
 
     // --- EFFECTS ---
-
-    // 1. Initial Load from Cloud Service
     useEffect(() => {
         cloudService.loadData().then(initialState => {
             const state = initialState || getDefaultState();
@@ -311,18 +306,23 @@ const App: React.FC = () => {
                 ? state.workspaces.find(ws => ws.id === state.lastWorkspaceId) 
                 : null;
             setActiveWorkspace(lastWs);
+            
+            if (!lastWs && state.workspaces.length > 0) {
+                 setAppState('WORKSPACE_SELECT');
+            } else if (lastWs) {
+                 setAppState('LOGIN');
+            } else {
+                 setAppState('LOGIN');
+            }
         }).catch(err => {
             console.error("Failed to load data from cloud:", err);
-            // Handle error, maybe show a global error message
         }).finally(() => {
             setIsInitialLoad(false);
         });
     }, []);
 
-    // 2. Hydrate workspace-specific states when activeWorkspace changes
     useEffect(() => {
         if (isInitialLoad) return;
-        
         const data = activeWorkspace ? (workspaceData[activeWorkspace.id] || getDefaultWorkspaceData()) : getDefaultWorkspaceData();
         setPositions(data.positions);
         setCandidates(data.candidates);
@@ -339,10 +339,8 @@ const App: React.FC = () => {
         }
     }, [activeWorkspace, workspaceData, isInitialLoad, loggedInSuperAdmin]);
 
-    // 3. Update master workspaceData object when any active workspace state changes
     useEffect(() => {
         if (isInitialLoad || !activeWorkspace) return;
-        
         setWorkspaceData(prev => ({
             ...prev,
             [activeWorkspace.id]: {
@@ -350,25 +348,16 @@ const App: React.FC = () => {
                 electionDetails, adminProfile, auditLog, resultsPublished,
             }
         }));
-    }, [
-        positions, candidates, voters, votes, electionStatus, 
-        electionDetails, adminProfile, auditLog, resultsPublished
-    ]);
+    }, [positions, candidates, voters, votes, electionStatus, electionDetails, adminProfile, auditLog, resultsPublished, activeWorkspace]);
 
-    // 4. Debounced save to cloud service
     useDebouncedEffect(() => {
         if (isInitialLoad) return;
-        
         if (syncStatusTimer.current) clearTimeout(syncStatusTimer.current);
         setSyncStatus('syncing');
 
         const stateToSave: FullAppState = {
-            theme,
-            workspaces,
-            superAdminProfile,
-            workspaceData,
-            lastWorkspaceId: activeWorkspace?.id || null,
-            lastBackupTimestamp,
+            theme, workspaces, superAdminProfile, workspaceData,
+            lastWorkspaceId: activeWorkspace?.id || null, lastBackupTimestamp,
         };
 
         cloudService.saveData(stateToSave).then(() => {
@@ -377,52 +366,34 @@ const App: React.FC = () => {
         }).catch(() => {
             setSyncStatus('error');
         });
-
     }, [theme, workspaces, superAdminProfile, workspaceData, activeWorkspace, lastBackupTimestamp], 1500);
 
-    // 5. Apply theme to document
     useEffect(() => {
-        if (theme === 'dark') {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
+        document.documentElement.classList.toggle('dark', theme === 'dark');
     }, [theme]);
     
     // --- HELPERS ---
     const addAuditLog = (action: AuditLogAction, details: string) => {
-        // Super admin actions are global and there's no global audit log.
-        if (loggedInSuperAdmin) {
-            console.log(`[Super Admin Action] ${action}: ${details}`);
-            return;
-        }
+        if (loggedInSuperAdmin) return;
 
         let actor: AuditLogEntry['actor'] = { id: 'System', name: 'System', role: 'System' };
-        if (loggedInAdmin) {
-            actor = { id: loggedInAdmin.id, name: loggedInAdmin.name, role: 'Admin' };
-        } else if (loggedInVoter) {
-            actor = { id: loggedInVoter.id, name: loggedInVoter.name, role: 'Voter' };
-        }
+        if (loggedInAdmin) actor = { id: loggedInAdmin.id, name: loggedInAdmin.name, role: 'Admin' };
+        else if (loggedInVoter) actor = { id: loggedInVoter.id, name: loggedInVoter.name, role: 'Voter' };
 
         const newLogEntry: AuditLogEntry = {
             id: `${Date.now()}-${Math.random()}`,
             timestamp: Date.now(),
-            action,
-            details,
-            actor,
+            action, details, actor,
         };
         setAuditLog(prev => [newLogEntry, ...prev]);
     };
 
     const addAuditLogWithoutActor = (action: AuditLogAction, details: string, actor: AuditLogEntry['actor']) => {
-        const newLogEntry: AuditLogEntry = {
+        setAuditLog(prev => [{
             id: `${Date.now()}-${Math.random()}`,
             timestamp: Date.now(),
-            action,
-            details,
-            actor,
-        };
-        setAuditLog(prev => [newLogEntry, ...prev]);
+            action, details, actor,
+        }, ...prev]);
     };
 
     const handleBackupToJson = () => {
@@ -436,43 +407,33 @@ const App: React.FC = () => {
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-            link.download = `election-data-backup-${timestamp}.json`;
+            link.download = `election-backup-${new Date().toISOString().replace(/[:.]/g, '-')}.json`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
             URL.revokeObjectURL(url);
             setLastBackupTimestamp(Date.now());
+            addAuditLog('DATA_BACKUP', 'Full application state backed up to a local JSON file.');
         } catch (error) {
             console.error("Failed to create backup:", error);
-            alert("Failed to create backup file. See console for details.");
         }
     };
 
     const handleRestoreFromJson = (file: File) => {
-        if (!file) {
-            alert("Please select a file to restore.");
-            return;
-        }
-        if (!window.confirm("Restoring from a file will overwrite ALL current data in the cloud. This action cannot be undone. Are you sure you want to proceed?")) {
-            return;
-        }
-
+        if (!file || !window.confirm("Overwrite ALL cloud data? This cannot be undone.")) return;
         const reader = new FileReader();
         reader.onload = (e) => {
             try {
-                const text = e.target?.result as string;
-                const restoredState = JSON.parse(text) as FullAppState;
-                // Save directly to cloud and then reload
+                const restoredState = JSON.parse(e.target?.result as string) as FullAppState;
+                restoredState.lastBackupTimestamp = Date.now();
                 setSyncStatus('syncing');
                 cloudService.saveData(restoredState).then(() => {
-                    alert("Data restored successfully. The application will now reload.");
+                    alert("Data restored. Reloading...");
                     window.location.reload();
                 });
             } catch (error) {
-                console.error("Failed to restore from file:", error);
                 setSyncStatus('error');
-                alert("Failed to restore data. The file may be corrupt or not a valid backup file. See console for details.");
+                alert("Failed to restore data. Invalid file.");
             }
         };
         reader.readAsText(file);
@@ -481,12 +442,8 @@ const App: React.FC = () => {
     // --- HANDLERS ---
     const handleSetElectionStatus = (status: ElectionStatus) => {
         const actor = loggedInAdmin ? { id: loggedInAdmin.id, name: loggedInAdmin.name, role: 'Admin' as const } : { id: 'System', name: 'System', role: 'System' as const };
-        
         if (status === 'IN_PROGRESS') {
-            setElectionDetails(prev => ({
-                ...prev,
-                endTime: prev.endTime && prev.endTime > Date.now() ? prev.endTime : Date.now() + 8 * 60 * 60 * 1000,
-            }));
+            setElectionDetails(prev => ({ ...prev, endTime: prev.endTime && prev.endTime > Date.now() ? prev.endTime : Date.now() + 8 * 60 * 60 * 1000 }));
             addAuditLogWithoutActor('ELECTION_START', 'The election has been started.', actor);
         } else if (status === 'ENDED') {
             setElectionDetails(prev => ({ ...prev, endTime: null }));
@@ -507,92 +464,58 @@ const App: React.FC = () => {
         setCandidates(defaultData.candidates);
         setVoters(defaultData.voters);
         setVotes(defaultData.votes);
-        setAuditLog([]); // Keep old audit logs for SA, but clear for this election cycle
+        setAuditLog(prev => [{
+            id: `${Date.now()}-reset`, timestamp: Date.now(), action: 'ELECTION_RESET', details: 'Local Admin reset election data.',
+            actor: loggedInAdmin ? { id: loggedInAdmin.id, name: loggedInAdmin.name, role: 'Admin' } : { id: 'System', name: 'System', role: 'System' }
+        }, ...prev.filter(log => log.action !== 'VOTE_CAST')]); 
         setElectionStatus(defaultData.electionStatus);
         setElectionDetails(defaultData.electionDetails);
         setResultsPublished(defaultData.resultsPublished);
     };
 
-    const toggleTheme = () => {
-        setTheme(prev => prev === 'light' ? 'dark' : 'light');
-    };
+    const toggleTheme = () => setTheme(prev => prev === 'light' ? 'dark' : 'light');
 
     const handleLogin = (id: string, pass: string) => {
         setLoginError(null);
         const trimmedId = id.trim();
-        
-        // 1. Check for Super Admin (workspace-agnostic)
         if (trimmedId === superAdminProfile.id && pass === superAdminProfile.password) {
             setLoggedInSuperAdmin(superAdminProfile);
             setAppState('SUPER_ADMIN_VIEW');
             return;
         }
-
-        // 2. From here, a workspace is required
         if (!activeWorkspace) {
             setLoginError("Please select a workspace before logging in.");
             return;
         }
-        
-        // 3. Check for Workspace Admin
         if (adminProfile && trimmedId === adminProfile.id && pass === adminProfile.password) {
             setLoggedInAdmin(adminProfile);
             addAuditLogWithoutActor('ADMIN_LOGIN', 'Admin logged in successfully.', {id: adminProfile.id, name: adminProfile.name, role: 'Admin'});
             setAppState('ADMIN_VIEW');
             return;
         }
-
-        // 4. Check for Voter
         const voter = voters.find(v => v.id.toLowerCase() === trimmedId.toLowerCase());
         if (voter && pass === voter.password) {
-            if (voter.isBlocked) {
-                setLoginError('Your account is blocked. Please contact the administrator.');
-                addAuditLogWithoutActor('VOTER_LOGIN_FAIL', `Login failed for voter '${voter.name}' (Account blocked).`, {id: voter.id, name: voter.name, role: 'Voter'});
-                return;
-            }
-            if (electionStatus !== 'IN_PROGRESS') {
-                setLoginError('The election is not currently in progress.');
-                addAuditLogWithoutActor('VOTER_LOGIN_FAIL', `Login failed for voter '${voter.name}' (Election not in progress).`, {id: voter.id, name: voter.name, role: 'Voter'});
-                return;
-            }
-            if (voter.hasVoted) {
-                setLoginError('You have already cast your vote.');
-                addAuditLogWithoutActor('VOTER_LOGIN_FAIL', `Login failed for voter '${voter.name}' (Already voted).`, {id: voter.id, name: voter.name, role: 'Voter'});
-                return;
-            }
+            if (voter.isBlocked) return setLoginError('Your account is blocked.');
+            if (electionStatus !== 'IN_PROGRESS') return setLoginError('The election is not currently in progress.');
+            if (voter.hasVoted) return setLoginError('You have already cast your vote.');
             setLoggedInVoter(voter);
             addAuditLogWithoutActor('VOTER_LOGIN_SUCCESS', `Voter '${voter.name}' logged in successfully.`, {id: voter.id, name: voter.name, role: 'Voter'});
             setAppState('VOTER_VIEW');
             return;
         }
-
-        // 5. If nothing matches
-        setLoginError("Invalid credentials. Please check your ID and password.");
+        setLoginError("Invalid credentials.");
     };
 
     const handleVote = (selections: { [key: number]: number[] }) => {
         if (!loggedInVoter) return;
-
         const newVotes: Vote[] = Object.entries(selections).flatMap(([posId, canIds]) =>
-            canIds.map(canId => ({
-                voterId: loggedInVoter.id,
-                positionId: Number(posId),
-                candidateId: canId,
-                timestamp: Date.now()
-            }))
+            canIds.map(canId => ({ voterId: loggedInVoter.id, positionId: Number(posId), candidateId: canId, timestamp: Date.now() }))
         );
-
         setVotes(prev => [...prev, ...newVotes]);
         setVoters(prev => prev.map(v => v.id === loggedInVoter.id ? { ...v, hasVoted: true } : v));
         addAuditLog('VOTE_CAST', `Voter '${loggedInVoter.name}' cast their vote.`);
         setLoggedInVoter(null);
         setAppState('VOTED_SCREEN');
-    };
-    
-    const handleWorkspaceLogout = () => {
-        setLoggedInAdmin(null);
-        setLoggedInVoter(null);
-        setAppState('LOGIN');
     };
     
     const handleFullLogout = () => {
@@ -603,8 +526,9 @@ const App: React.FC = () => {
         setAppState('LOGIN');
     };
     
-    const handleWorkspaceSelected = (workspace: Workspace) => {
-        setActiveWorkspace(workspace);
+    const handleWorkspaceLogout = () => {
+        setLoggedInAdmin(null);
+        setLoggedInVoter(null);
         setAppState('LOGIN');
     };
     
@@ -614,59 +538,36 @@ const App: React.FC = () => {
         setActiveWorkspace(null);
         setAppState('WORKSPACE_SELECT');
     };
-    
-    // --- Super Admin Handlers ---
+
+    // --- SUPER ADMIN HANDLERS ---
     const setAdminProfileForWorkspace = (wsId: string, profile: AdminProfile) => {
-        setWorkspaceData(prev => ({
-            ...prev,
-            [wsId]: {
-                ...(prev[wsId] || getDefaultWorkspaceData()),
-                adminProfile: profile
-            }
-        }));
+        setWorkspaceData(prev => ({ ...prev, [wsId]: { ...(prev[wsId] || getDefaultWorkspaceData()), adminProfile: profile } }));
     };
 
     const handleDeleteWorkspace = (wsId: string) => {
-        const wsName = workspaces.find(ws => ws.id === wsId)?.name || 'Unknown';
-        addAuditLog('WORKSPACE_DELETED', `Workspace '${wsName}' (ID: ${wsId}) was deleted.`);
         setWorkspaces(prev => prev.filter(ws => ws.id !== wsId));
-        setWorkspaceData(prev => {
-            const newData = { ...prev };
-            delete newData[wsId];
-            return newData;
-        });
-        if (activeWorkspace?.id === wsId) {
-            setActiveWorkspace(null);
-        }
+        setWorkspaceData(prev => { const n = { ...prev }; delete n[wsId]; return n; });
+        if (activeWorkspace?.id === wsId) setActiveWorkspace(null);
     };
     
     const handleResetWorkspaceForNewElection = (wsId: string) => {
         const actorProfile = loggedInSuperAdmin || superAdminProfile;
-        const newLog: AuditLogEntry = {
-            id: `${Date.now()}-sa-reset`,
-            timestamp: Date.now(),
-            actor: { id: actorProfile.id, name: actorProfile.name, role: 'Super Admin' },
-            action: 'ELECTION_RESET',
-            details: `Super Admin enabled a new election for this workspace.`
-        };
-
         setWorkspaceData(prev => {
-            const wsCurrentData = prev[wsId] || getDefaultWorkspaceData();
+            const wsData = prev[wsId] || getDefaultWorkspaceData();
             return {
                 ...prev,
                 [wsId]: {
-                    ...wsCurrentData,
-                    votes: [],
-                    electionStatus: 'NOT_STARTED',
-                    electionDetails: { ...wsCurrentData.electionDetails, endTime: null },
+                    ...wsData, votes: [], electionStatus: 'NOT_STARTED',
+                    electionDetails: { ...wsData.electionDetails, endTime: null },
                     resultsPublished: false,
-                    voters: wsCurrentData.voters.map(v => ({...v, hasVoted: false})),
-                    auditLog: [newLog, ...wsCurrentData.auditLog]
+                    voters: wsData.voters.map(v => ({...v, hasVoted: false})),
+                    auditLog: [{ id: `${Date.now()}-sa-reset`, timestamp: Date.now(), actor: { id: actorProfile.id, name: actorProfile.name, role: 'Super Admin' }, action: 'ELECTION_RESET', details: `Super Admin enabled a new election.` }, ...wsData.auditLog]
                 }
             }
         });
     };
 
+    // --- RENDER ---
     const renderContent = () => {
         if (isInitialLoad) {
             return (
@@ -681,159 +582,53 @@ const App: React.FC = () => {
 
         switch (appState) {
             case 'WORKSPACE_SELECT':
-                return <WorkspaceManager 
-                    workspaces={workspaces}
-                    onWorkspaceSelected={handleWorkspaceSelected}
-                    theme={theme}
-                    toggleTheme={toggleTheme}
-                    onGoBack={() => setAppState('LOGIN')}
-                    onRestoreFromJson={handleRestoreFromJson}
-                />;
+                return <WorkspaceManager workspaces={workspaces} onWorkspaceSelected={(ws) => { setActiveWorkspace(ws); setAppState('LOGIN'); }} theme={theme} toggleTheme={toggleTheme} onGoBack={() => setAppState('LOGIN')} onRestoreFromJson={handleRestoreFromJson} />;
             case 'LOGIN':
                 return (
                     <>
-                        <UnifiedLoginScreen
-                            onLogin={handleLogin}
-                            loginError={loginError}
-                            theme={theme}
-                            toggleTheme={toggleTheme}
-                            electionStatus={electionStatus}
-                            resultsPublished={resultsPublished}
-                            onViewResults={() => setAppState('PUBLIC_RESULTS')}
-                            workspace={activeWorkspace}
-                            onSwitchWorkspace={handleSwitchToWorkspaceSelect}
-                            setShowVoterVerification={setShowVoterVerification}
-                        />
-                        <VoterVerificationModal 
-                            isOpen={showVoterVerification}
-                            onClose={() => setShowVoterVerification(false)}
-                            voters={voters}
-                            theme={theme}
-                        />
+                        <UnifiedLoginScreen onLogin={handleLogin} loginError={loginError} theme={theme} toggleTheme={toggleTheme} electionStatus={electionStatus} resultsPublished={resultsPublished} onViewResults={() => setAppState('PUBLIC_RESULTS')} workspace={activeWorkspace} onSwitchWorkspace={handleSwitchToWorkspaceSelect} setShowVoterVerification={setShowVoterVerification} />
+                        <VoterVerificationModal isOpen={showVoterVerification} onClose={() => setShowVoterVerification(false)} voters={voters} theme={theme} />
                     </>
                 );
             case 'ADMIN_VIEW':
-                if (!loggedInAdmin || !activeWorkspace || !adminProfile) return null;
-                return <AdminPanel
-                    positions={positions}
-                    candidates={candidates}
-                    voters={voters}
-                    votes={votes}
-                    adminProfile={adminProfile}
-                    auditLog={auditLog}
-                    addAuditLog={addAuditLog}
-                    setPositions={setPositions}
-                    setCandidates={setCandidates}
-                    setVoters={setVoters}
-                    setVotes={setVotes}
-                    setAdminProfile={setAdminProfile}
-                    onLogout={handleWorkspaceLogout}
-                    theme={theme}
-                    toggleTheme={toggleTheme}
-                    electionStatus={electionStatus}
-                    setElectionStatus={handleSetElectionStatus}
-                    electionDetails={electionDetails}
-                    setElectionDetails={setElectionDetails}
-                    handleResetElection={handleResetElection}
-                    workspaceName={activeWorkspace.name}
-                    resultsPublished={resultsPublished}
-                    setResultsPublished={handleSetResultsPublished}
-                    isSuperAdminOverride={!!loggedInSuperAdmin}
-                    onReturnToSuperAdmin={!!loggedInSuperAdmin ? () => {
-                        setLoggedInAdmin(null);
-                        setAppState('SUPER_ADMIN_VIEW');
-                    } : undefined}
-                    onBackupToJson={handleBackupToJson}
-                    onRestoreFromJson={handleRestoreFromJson}
-                    lastBackupTimestamp={lastBackupTimestamp}
-                />;
-             case 'SUPER_ADMIN_VIEW':
-                if (!loggedInSuperAdmin) return null;
-                return <SuperAdminPanel 
-                    workspaces={workspaces}
-                    setWorkspaces={setWorkspaces}
-                    superAdminProfile={superAdminProfile}
-                    setSuperAdminProfile={setSuperAdminProfile}
-                    onEnterWorkspace={(ws) => {
-                        setActiveWorkspace(ws);
-                        setLoggedInAdmin(workspaceData[ws.id]?.adminProfile || null);
-                        setAppState('ADMIN_VIEW');
-                    }}
-                    onDeleteWorkspace={handleDeleteWorkspace}
-                    getAdminProfile={(wsId) => workspaceData[wsId]?.adminProfile || null}
-                    setAdminProfile={setAdminProfileForWorkspace}
-                    onLogout={handleFullLogout}
-                    theme={theme}
-                    toggleTheme={toggleTheme}
-                    addAuditLog={addAuditLog}
-                    getWorkspaceStatus={(wsId) => workspaceData[wsId]?.electionStatus || 'NOT_STARTED'}
-                    onEnableNewElection={handleResetWorkspaceForNewElection}
-                    onBackupToJson={handleBackupToJson}
-                    onRestoreFromJson={handleRestoreFromJson}
-                    lastBackupTimestamp={lastBackupTimestamp}
-                />;
+                if (!loggedInAdmin) return null;
+                return <AdminPanel positions={positions} setPositions={setPositions} candidates={candidates} setCandidates={setCandidates} voters={voters} setVoters={setVoters} votes={votes} electionStatus={electionStatus} setElectionStatus={handleSetElectionStatus} electionDetails={electionDetails} setElectionDetails={setElectionDetails} auditLog={auditLog} adminProfile={loggedInAdmin} workspaceName={activeWorkspace?.name || 'Admin Panel'} onLogout={handleWorkspaceLogout} onResetElection={handleResetElection} theme={theme} toggleTheme={toggleTheme} resultsPublished={resultsPublished} setResultsPublished={handleSetResultsPublished} addAuditLog={addAuditLog} handleBackupToJson={handleBackupToJson} lastBackupTimestamp={lastBackupTimestamp} />;
             case 'VOTER_VIEW':
                 if (!loggedInVoter || !activeWorkspace) return null;
-                return <VotingBooth
-                    voter={loggedInVoter}
-                    positions={positions}
-                    candidates={candidates}
-                    onVote={handleVote}
-                    onLogout={handleWorkspaceLogout}
-                    theme={theme}
-                    toggleTheme={toggleTheme}
-                    workspaceName={activeWorkspace.name}
-                    electionName={electionDetails.name}
-                />;
+                return <VotingBooth positions={positions} candidates={candidates} voter={loggedInVoter} onVote={handleVote} onLogout={handleWorkspaceLogout} electionDetails={electionDetails} workspaceName={activeWorkspace.name} theme={theme} toggleTheme={toggleTheme} />;
             case 'VOTED_SCREEN':
-                return <VotedScreen onLogout={handleWorkspaceLogout} theme={theme} toggleTheme={toggleTheme} />;
+                return <VotedScreen onContinue={() => setAppState('LOGIN')} theme={theme} toggleTheme={toggleTheme} workspaceName={activeWorkspace?.name || 'Election System'} />;
             case 'PUBLIC_RESULTS':
-                 if (!activeWorkspace) {
-                    handleSwitchToWorkspaceSelect();
-                    return null;
-                 };
-                return <PublicResults
-                    positions={positions}
-                    candidates={candidates}
-                    votes={votes}
-                    onBack={() => setAppState('LOGIN')}
-                    theme={theme}
-                    toggleTheme={toggleTheme}
-                    workspaceName={activeWorkspace.name}
-                    electionName={electionDetails.name}
-                    electionStatus={electionStatus}
-                    resultsPublished={resultsPublished}
-                />;
+                if (!activeWorkspace) return null;
+                return <PublicResults positions={positions} candidates={candidates} votes={votes} onBack={() => setAppState('LOGIN')} theme={theme} toggleTheme={toggleTheme} workspaceName={activeWorkspace.name} electionName={electionDetails.name} electionStatus={electionStatus} resultsPublished={resultsPublished} />;
+            case 'SUPER_ADMIN_VIEW':
+                if (!loggedInSuperAdmin) return null;
+                return <SuperAdminPanel superAdminProfile={loggedInSuperAdmin} workspaces={workspaces} setWorkspaces={setWorkspaces} workspaceData={workspaceData} setWorkspaceData={setWorkspaceData} onLogout={handleFullLogout} theme={theme} toggleTheme={toggleTheme} setAdminProfileForWorkspace={setAdminProfileForWorkspace} handleDeleteWorkspace={handleDeleteWorkspace} handleResetWorkspaceForNewElection={handleResetWorkspaceForNewElection} handleBackupToJson={handleBackupToJson} handleRestoreFromJson={handleRestoreFromJson} />;
             default:
-                return <div>Invalid State</div>;
+                return <div className="min-h-screen flex items-center justify-center text-red-600">Error: Invalid App State</div>;
         }
     };
-
+    
     const SyncStatusIndicator = () => {
         if (syncStatus === 'idle') return null;
-
-        const statusMap = {
-            syncing: { icon: <CloudUploadIcon className="w-5 h-5 animate-pulse" />, text: "Syncing...", color: "text-blue-500" },
-            synced: { icon: <CloudCheckIcon className="w-5 h-5" />, text: "Saved to Cloud", color: "text-green-500" },
-            error: { icon: <CloudIcon className="w-5 h-5" />, text: "Sync Failed", color: "text-red-500" },
-        };
-
-        const currentStatus = statusMap[syncStatus];
-        if (!currentStatus) return null;
-
+        const config = {
+            syncing: { icon: <CloudUploadIcon className="w-5 h-5 animate-pulse" />, text: 'Syncing...', color: 'text-blue-500' },
+            synced: { icon: <CloudCheckIcon className="w-5 h-5" />, text: 'Synced', color: 'text-green-500' },
+            error: { icon: <CloudIcon className="w-5 h-5 text-red-500" />, text: 'Sync Error', color: 'text-red-500' }
+        }[syncStatus];
+        
         return (
-            <div className={`fixed bottom-4 left-4 z-50 flex items-center gap-2 px-3 py-1.5 rounded-full bg-white dark:bg-gray-800 shadow-lg border dark:border-gray-700 transition-opacity duration-300`}>
-                <span className={currentStatus.color}>{currentStatus.icon}</span>
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{currentStatus.text}</span>
+            <div className={`fixed bottom-4 right-4 p-2 rounded-full shadow-lg bg-white dark:bg-gray-700 flex items-center gap-2 text-sm font-medium ${config.color}`}>
+                {config.icon} <span className="hidden sm:inline">{config.text}</span>
             </div>
         );
     };
 
     return (
-        <>
+        <div className={`min-h-screen ${theme === 'dark' ? 'dark' : ''}`}>
             {renderContent()}
             <SyncStatusIndicator />
-        </>
+        </div>
     );
 };
 
